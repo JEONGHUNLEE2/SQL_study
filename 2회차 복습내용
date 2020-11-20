@@ -1,0 +1,33 @@
+1)   DELETE / DROP / TRUNCATE TABLE의 차이 명확히 알기
+DROP(DDL)은 데이터와 테이블 전부를 지움
+TRUNCATE TABLE(DDL)은 테이블은 안지우고 데이터만 지움 (DROP후에 CREATE하는 개념)
+DELETE(DDL)은 데이터를 골라서 삭제할수 있음
+참고자료 : https://jhnyang.tistory.com/56
+            https://lee-mandu.tistory.com/476
+            
+            
+2)   ERD 익숙해지기
+sqldeveloper에서 테이블을 선택한 후 ‘MODEL’ 탭 눌러서 확인가능
+참고자료 : https://www.visual-paradigm.com/guide/data-modeling/what-is-entity-relationship-diagram/
+ 
+ 
+3)   컬럼명 붙이기 : 아래 두 경우의 차이점을 알아두자
+ALTER TABLE 테이블명 RENAME COLUMN 원래컬럼명 TO 바꿀컬럼명;
+CASE 원래컬럼명 WHEN 조건 THEN 입력할값
+       END AS 새컬럼명
+       
+       
+4)   강사님께 여쭤보고 싶은점
+-     CASE문에서는 SELECT 다음에 *는 안되고 컬럼명만 들어가야 되는지
+-     IN과 LIKE를 같이 쓸수있는지
+       ex) LIKE로 %SA자가 들어간 이름을 찾을 수 있다. IN을 같이 쓸수 있으면 %SA, %SIE, %IE 들어간 이름을 같이 찾을수 있지 않을까?
+       
+       
+5)   문제 풀기
+2-2 강의자료 : 문제 6
+ERD를 참고하여 데이터 위치를 찾아가는 방법 외의 방법이 있을까요?
+2-3 강의자료 : 문제 7
+update locations set postal_code = '99999' where postal_code is null;
+ select postal_code ||' - '|| street_address ||' - '|| city ||' - '|| state_province ||' - '|| country_id as 주소
+ from locations where country_id = 'UK';
+--> 다른 방식 나오면 공유하기
