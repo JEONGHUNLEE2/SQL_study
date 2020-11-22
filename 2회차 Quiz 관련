@@ -1,0 +1,21 @@
+2. employees 테이블에는 인센티브 값이 있는 commission_pct 컬럼이 있습니다. 그런데 commission_pct를 모든 사원이 받는 것은 아니어서 이 컬럼 값이 null인 건이 존재합니다.
+Null인 건은 salary만, null이 아닌 건은 salary + (salary * commission_pct) 로 처리하는 Case 표현식을 작성해 보세요. 
+
+라는 문제에서 처음에 
+select *
+    case salary when is null then salary
+                when is not null then salary + (salary * commission_pct)
+            end new_in
+from employees;
+
+
+이런식으로 풀이를 했다가 오류가 나와서 단순형이 아닌 검색형으로 사용해야겠다 싶어서 아래와 같은 방법으로 고민끝에 해결..
+
+
+select salary, commission_pct,
+    case when commission_pct is null then salary
+         else salary + (salary * commission_pct)
+    end total_salary
+from employees;
+
+*case는 'select *' 안되는거 같다. 
