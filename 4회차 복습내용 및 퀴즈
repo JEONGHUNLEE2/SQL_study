@@ -1,0 +1,65 @@
+--4.1 
+
+Q1. 4-1-1. locations 테이블에는 전 세계에 있는 지역 사무소 주소 정보가 나와 있습니다. 각 국가별로 지역사무소가 몇 개나 되는지 찾는 쿼리를 작성해 보세요.
+select count(*), country_id
+    from locations
+    group by country_id;
+
+desc locations;
+select *
+    from locations;
+    
+--Q2. employees 테이블에서 년도에 상관 없이 분기별로 몇 명의 사원이 입사했는지 구하는 쿼리를 작성해 보세요.(Q는 분기별)
+select to_char(hire_date, 'Q'),
+    count(*) 
+    from employees
+    group by to_char(hire_date, 'Q')
+    order by 1;
+    
+    
+--Q3. 다음 쿼리는 employees 테이블에서 job_id별로 평균 급여를 구한 것인데, 여기서 평균을 직접 계산하는 avg_salary1 이란 가상컬럼을 추가해 보세요. 
+SELECT job_id, ROUND(AVG(salary),0) avg_salary
+FROM employees
+GROUP BY job_id
+ORDER BY 1;
+
+select 
+
+
+--Q4. COVID19 테이블에서 한국(ISO_CODE 값이 KOR)의 월별 코로나 확진자 수를 조회하는 문장을 작성하시오.
+select to_char(dates, 'yyyy-mm'),
+    sum(new_cases) 
+    from covid19
+    where iso_code = 'KOR'
+    group by to_char(dates, 'yyyy-mm')
+    order by 1;
+
+select *
+    from covid19;
+    
+--Q5. COVID19 테이블에서 한국 데이터에 대해 다음 결과가 나오도록 문장을 작성하시오. 
+** dates를 group by로 묶어놓은 상태에서 그냥 변수를 가져오면 데이터 행 갯수가 다르기 때문에 오류!!
+
+select to_char(dates, 'yyyy-mm') months, 
+    sum(new_cases) 확진자수, 
+    sum(new_deaths) 사망자수, 
+    decode(sum(new_cases),0, 0, round(sum(new_deaths)/sum(new_cases) * 100,2)) 사망율
+    from covid19
+    where 1=1
+    and iso_code = 'KOR' 
+    group by to_char(dates, 'yyyy-mm')
+    order by 1;
+
+    
+--Q6.. COVID19 테이블에서 2020년 10월에 가장 많은 확진자가 나온 상위 5개 국가는 어떤 나라일까요?
+select *
+    from covid19;
+
+select country, sum(new_cases) 
+    from covid19
+    where 1=1
+    and new_cases is not null
+    and country <> 'World'
+    and to_char(dates, 'yyyy-mm') = '2020-10'
+    group by country, to_char(dates, 'yyyy-mm')
+    order by 2 desc; 
